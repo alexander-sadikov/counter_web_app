@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "esnext",            // Specifies ECMAScript target version.
+    "module": "esnext",            // Specifies the module code generation method.
+    "moduleResolution": "node",    // Determines how modules are resolved.
+    "strict": true,                // Enable all strict type-checking options.
+    "esModuleInterop": true,       // Allows default imports from modules with no default export.
+    "skipLibCheck": true,          // Skip type checking of all declaration files.
+    "forceConsistentCasingInFileNames": true, // Ensure consistent casing in imports.
+    "baseUrl": "./assets",               // Base directory for non-relative module names.
+    "paths": {                     // Define a path alias for your TypeScript files.
+      "@ts/*": ["js/*"],
+      "@sass/*": ["css/*"]
+    },
+  },
+  "include": ["assets/js/**/*.ts"],
+  "exclude": ["node_modules"]
+}

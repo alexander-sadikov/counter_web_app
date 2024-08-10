@@ -1,0 +1,6 @@
+/.idea/
+/app/vendor/
+/app/templates_c/
+/app/node_modules/
+/.env
+/app/public/dist/

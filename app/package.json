@@ -1,0 +1,15 @@
+{
+  "devDependencies": {
+    "@types/node": "^22.2.0",
+    "sass-embedded": "^1.77.8",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3"
+  }
+}
