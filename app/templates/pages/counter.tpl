@@ -11,7 +11,7 @@
             <!-- Buttons -->
             <div class="button-group w-100">
                 <button id="IncrementBtn" class="btn btn-primary">+1</button>
-                <button id="ExitBtn" class="btn btn-danger">Exit</button>
+                <a href="/logout" class="btn btn-danger">Exit</a>
             </div>
         </div>
     </div>

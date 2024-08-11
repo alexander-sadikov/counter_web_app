@@ -39,6 +39,7 @@ $app->group('', function (RouteCollectorProxy $group) use ($app) {
 $app->get('/login_form', [UserController::class, 'loginForm']);
 
 $app->post('/api/login', [UserController::class, 'login']);
+$app->get('/logout', [UserController::class, 'logout']);
 
 $app->addRoutingMiddleware();
 $app->run();

@@ -28,6 +28,20 @@ class UserController
         return $response;
     }
 
+    public function logout(Request $request, Response $response): Response{
+        session_unset();  // Unset all session variables
+
+        // Delete session cookie
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+
+        session_destroy();  // Destroy the session data
+        return $response->withRedirect('/');
+    }
+
     public function login(Request $request, Response $response): Response{
         $parsedBody = $request->getParsedBody();
 
