@@ -4,3 +4,4 @@
 /app/node_modules/
 /.env
 /app/public/dist/
+/app/database/database.sqlite
