@@ -26,7 +26,7 @@ class UserModel extends BaseModel
             if ($user) {
                 // User exists, validate the password
                 if (password_verify($password, $user['password'])) {
-                    return new UserDTO($user['id'], $user['password']);
+                    return new UserDTO($user['id'], $user['username']);
                 } else {
                     throw new UserLoginException('Invalid username or password');
                 }

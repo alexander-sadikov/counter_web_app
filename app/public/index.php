@@ -29,17 +29,23 @@ AppFactory::setContainer($container);
 $app = AppFactory::create();
 $app->addBodyParsingMiddleware();
 
-$app->group('', function (RouteCollectorProxy $group) use ($app) {
+// Paths group that can be only accessed by authenticated user
+$app->group('', function (RouteCollectorProxy $group){
+    // Pages
     $group->group('', function (RouteCollectorProxy $group) {
         $group->get('/', [CounterController::class, 'index']);
-
+        $group->get('/logout', [UserController::class, 'logout']);
+    });
+    // API endpoints
+    $group->group('/api', function (RouteCollectorProxy $group){
+        $group->put('/increase_counter', [CounterController::class, 'increaseCounter']);
     });
 })->add(AccessMiddleware::class);
 
+// Unauthenticated user can only use login form and send login request
 $app->get('/login_form', [UserController::class, 'loginForm']);
-
 $app->post('/api/login', [UserController::class, 'login']);
-$app->get('/logout', [UserController::class, 'logout']);
+
 
 $app->addRoutingMiddleware();
 $app->run();

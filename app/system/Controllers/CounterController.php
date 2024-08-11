@@ -4,42 +4,49 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Models\CounterModel;
+use App\User;
 use App\View;
+use DI\Container;
 use PDO;
-use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Slim\Http\Response;
+use Slim\Http\ServerRequest as Request;
 
 class CounterController
 {
     private CounterModel $counterModel;
+    private User $user;
     public function __construct(
-        ContainerInterface $container
+        Container $container
     ){
         $pdo = $container->get(PDO::class);
         $this->counterModel = new CounterModel($pdo);
+        $this->user = $container->get(User::class);
     }
 
-    public function index(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface{
-        $page_html = View::render('pages/counter.tpl');
+    public function index(Request $request, Response $response): Response{
+        $counter = $this->user->getCounter();
+
+        $page_html = View::render('pages/counter.tpl', [
+            'counter' => $counter ?? 0,
+            'user_name' => $this->user->getUserName(),
+        ]);
 
         $response->getBody()->write($page_html);
 
         return $response;
     }
 
-    public function setCounterAction() {
-        if (isset($_POST['user_id']) && isset($_POST['counter'])) {
-            $userId = intval($_POST['user_id']);
-            $newCounterValue = intval($_POST['counter']);
+    public function increaseCounter(Request $request, Response $response): Response{
+        $parsedBody = $request->getParsedBody();
 
-            if ($this->counterModel->setCounter($userId, $newCounterValue)) {
-                echo json_encode(['status' => 'success', 'message' => 'Counter updated successfully.']);
-            } else {
-                echo json_encode(['status' => 'error', 'message' => 'Failed to update counter.']);
-            }
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Invalid input.']);
-        }
+        $newCounterVal = $parsedBody['counter_val'];
+        $userId = $this->user->getUserId();
+
+        if(!is_numeric($newCounterVal))
+            throw new \Exception('Not valid counter value');
+
+        $this->counterModel->setCounter($userId, intval($newCounterVal));
+
+        return $response->withJson([]);
     }
 }

@@ -25,4 +25,22 @@ class CounterModel extends BaseModel
             return false;
         }
     }
+
+    public function getCounter(int $userId): ?int{
+        try {
+            $stmt = $this->pdo->prepare("SELECT counter FROM user_counters WHERE user_id = :user_id");
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->execute();
+            $counter = $stmt->fetchColumn(); // Fetches the value of the 'counter' column
+
+            if ($counter !== false) {
+                return $counter;
+            } else {
+                return null;
+            }
+        } catch (PDOException $e) {
+            // Handle error, optionally log it
+            throw $e;
+        }
+    }
 }
