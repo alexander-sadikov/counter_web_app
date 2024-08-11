@@ -21,7 +21,7 @@ class CounterController
     }
 
     public function index(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface{
-        $page_html = View::render('pages/home.tpl');
+        $page_html = View::render('pages/counter.tpl');
 
         $response->getBody()->write($page_html);
 
